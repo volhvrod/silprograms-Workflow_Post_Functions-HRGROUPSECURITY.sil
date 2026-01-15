@@ -1,0 +1,51 @@
+
+if((lastissuechanges[0].field == "SMD") || (lastissuechanges[0].field == "Technical Experts")) {
+    string[] fH = fieldHistory(key, "summary");
+    string grp;
+    grp = fH[1];
+    if(size(fH) == 0) {
+        grp = summary;
+    }
+        
+    if(!(groupExists(grp))) {
+        boolean grpCreate = admCreateGroup(grp);
+        string [] groups = customfield_17602;
+        groups += grp;
+        %key%.customfield_17602 = groups;
+    }
+        
+    string [] usersIngroup = usersInGroups({grp});
+    
+    if((lastissuechanges[0].field == "SMD")) {
+        string newVal = customfield_16509;
+        for(string user in usersIngroup) {
+            if(user != newVal) {
+             boolean rem = admRemoveUserFromGroup(user, grp);
+            }
+        }
+    }
+    
+    else if((lastissuechanges[0].field == "Technical Experts")) {
+        string [] usersInField;
+        for(string user in customfield_16510) {
+            usersInField += userKeyToUsername(user);
+        }
+        for(string user in usersIngroup) {
+            if(!(arrayElementExists(usersInField, user))) {
+                boolean rem = admRemoveUserFromGroup(user, grp);
+            }
+        }
+    }
+    
+    
+    if(isNotNull(customfield_16509)) {
+        boolean add = addUserToGroup(customfield_16509, grp);
+    }
+        
+    
+    if(isNotNull(customfield_16510)) {
+        for(string user in customfield_16510) {
+            boolean mem = addUserToGroup(user, grp);
+        }
+    }
+} 
