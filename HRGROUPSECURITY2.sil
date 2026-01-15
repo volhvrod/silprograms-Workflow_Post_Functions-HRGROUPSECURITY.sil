@@ -1,0 +1,23 @@
+/*
+Call this script from a workflow transition post-function.
+It will set the fields to the value of the matching field in the parent issue.
+*/
+runAs("System"); /*Запускается от пользователя System */
+if(isNotNull(parent)) /* Условие: если указаное поле не пустое */ {
+    
+string sum = summary;			/* создаем строку sum со значением равным summary запроса */			
+boolean grp = createGroup(sum); /* вызываем команду Создать группу со значением SUM */
+if(groupExists(sum)) {			/* вызываем команду Создать группу со значением SUM */
+    if(isNotNull(customfield_10600)) { /* если группа существует User Picker (single user)” field. - SMD */ 
+        boolean mem = addUserToGroup(customfield_10600, sum); /* вызываем команду Добавить пользователей из поля SMD в группу значения sum*/
+    }
+    
+    string [] users = customfield_10601; /* User Picker (multiple users)” field - Tecnical Experts */
+    for(string user in users) {
+        boolean mem = addUserToGroup(user, sum); /* вызываем команду Добавить пользователей из поля Technical Experts в группу значения sum*/
+    }
+    
+    string [] groups = customfield_10602; /* Group Picker (multiple groups)” field. - Permission Groups */
+    groups += sum;
+    %key%.customfield_10602 = groups;  /* добавляем группу из значения sum  в поле Permission Groups*/
+}
