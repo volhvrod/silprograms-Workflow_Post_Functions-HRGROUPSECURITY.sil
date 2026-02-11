@@ -6,3 +6,5 @@
 16510 with the ID of “User Picker (multiple users)” field. Multi user picker with the name of “Technical Experts” field.
 
 17602 with the ID of “Permission Group” field.
+
+<img width="1804" height="1646" alt="how to" src="https://github.com/user-attachments/assets/c72255ac-84e0-4480-bee1-389dedb0a523" />
